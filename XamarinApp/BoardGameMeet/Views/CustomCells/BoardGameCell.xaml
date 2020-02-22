@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+          mc:Ignorable="d"
+          x:Class="BoardGameMeet.Views.CustomCells.BoardGameCell">
+
+    <StackLayout Padding="10"
+                 Orientation="Horizontal"
+                 Spacing="10">
+
+        <Image Source="{Binding ImageUrl}"
+               HeightRequest="70"
+               WidthRequest="70"/>
+        <Label Text="{Binding Name}"
+               FontSize="Large"
+               VerticalOptions="Center"/>
+
+    </StackLayout>
+
+</ViewCell>

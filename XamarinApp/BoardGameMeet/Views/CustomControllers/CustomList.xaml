@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:BoardGameMeet.Views.Converters"
+             x:Class="BoardGameMeet.Views.CustomControllers.CustomList"
+             BackgroundColor="White"
+             VerticalOptions="FillAndExpand"
+             x:Name="this">
+
+    
+    <ContentView.Resources>
+        <converters:CountToVisibilityConverter x:Key="countToVisibilityConverter"/>
+    </ContentView.Resources>
+
+    <StackLayout>
+
+        <Label Text="{Binding EmptyListMessage}"
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center"
+               IsVisible="False">
+
+            <Label.Triggers>
+
+                <MultiTrigger TargetType="Label">
+                    <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding IsRefreshing}" Value="false"/>
+                        <BindingCondition Binding="{Binding ItemCollection.Count, Converter={StaticResource countToVisibilityConverter}}" Value="false"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="IsVisible" Value="True" />
+                </MultiTrigger>
+
+                <MultiTrigger TargetType="Label">
+                    <MultiTrigger.Conditions>
+                        <BindingCondition Binding="{Binding IsRefreshing}" Value="false"/>
+                        <BindingCondition Binding="{Binding ItemCollection.Count, Converter={StaticResource countToVisibilityConverter}}" Value="true"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="IsVisible" Value="False" />
+                </MultiTrigger>
+
+            </Label.Triggers>
+        </Label>
+
+        <ListView ItemsSource="{Binding ItemCollection}"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                  ItemSelected="OnItemSelected"
+                  HasUnevenRows="True"
+                  IsGroupingEnabled="{Binding IsGroupingEnabled}"
+                  SeparatorColor="LightGray"
+                  IsRefreshing="{Binding IsRefreshing}"
+                  ItemTemplate="{Binding ItemTemplate, Source={x:Reference this}}"
+                  GroupHeaderTemplate="{Binding GroupHeaderTemplate, Source={x:Reference this}}">
+
+            <ListView.Triggers>
+                <DataTrigger TargetType="ListView" 
+                             Binding="{Binding IsRefreshing}" 
+                             Value="False">
+                    <Setter Property="IsVisible" 
+                            Value="{Binding ItemCollection.Count, Converter={StaticResource countToVisibilityConverter}}" />
+                </DataTrigger>
+            </ListView.Triggers>
+
+        </ListView>
+
+    </StackLayout>
+
+</ContentView>

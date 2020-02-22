@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControllers="clr-namespace:BoardGameMeet.Views.CustomControllers"
+             xmlns:customCells="clr-namespace:BoardGameMeet.Views.CustomCells"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="BoardGameMeet.MainPage"
+             BackgroundColor="LightGray">
+
+    <StackLayout Orientation="Vertical"
+                 Padding="20"
+                 Spacing="15">
+        
+        <RelativeLayout VerticalOptions="Start">
+
+            <BoxView CornerRadius="10"
+                         RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"
+                         RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToView, ElementName=searchBar, Property=Height, Factor=1}"
+                         Color="white"
+                         Opacity="0.95"/>
+
+            <SearchBar x:Name="searchBar"
+                       Text="{Binding SearchInput}"
+                       Placeholder="Search here"
+                       SearchCommand="{Binding SearchCommand}"
+                       RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
+
+        </RelativeLayout>
+
+        <customControllers:CustomList BindingContext="{Binding CustomListViewModel}"
+                                      VerticalOptions="FillAndExpand">
+
+            <customControllers:CustomList.ItemTemplate>
+                <DataTemplate>
+                    <customCells:BoardGameCell/>
+                </DataTemplate>
+            </customControllers:CustomList.ItemTemplate>
+
+        </customControllers:CustomList>
+
+     </StackLayout>
+
+</ContentPage>
