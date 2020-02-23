@@ -2,6 +2,8 @@
 
 using MenuApplication.ViewModels.Base;
 using BoardGameMeet.ViewModels;
+using BoardGameMeet.Views;
+using BoardGameGeek;
 
 namespace BoardGameMeet
 {
@@ -12,7 +14,7 @@ namespace BoardGameMeet
             InitializeComponent();
             ViewModelLocator.Initialize();
 
-            MainPage = new NavigationPage(new MainPage(ViewModelLocator.Resolve<MainViewModel>()));
+            MainPage = new NavigationPage(new OAuthNativeFlowPage());
         }
 
         protected override void OnStart()
