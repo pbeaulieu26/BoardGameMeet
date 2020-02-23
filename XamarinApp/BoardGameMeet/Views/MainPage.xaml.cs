@@ -1,17 +1,16 @@
 ﻿using BoardGameMeet.ViewModels;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
-namespace BoardGameMeet
+namespace BoardGameMeet.Views
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private MainViewModel _viewModel;
-
         public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = viewModel;
-            BindingContext = _viewModel;
+            BindingContext = viewModel;
         }
     }
 }

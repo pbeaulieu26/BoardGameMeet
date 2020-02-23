@@ -4,7 +4,7 @@
              xmlns:customControllers="clr-namespace:BoardGameMeet.Views.CustomControllers"
              xmlns:customCells="clr-namespace:BoardGameMeet.Views.CustomCells"
              NavigationPage.HasNavigationBar="False"
-             x:Class="BoardGameMeet.MainPage"
+             x:Class="BoardGameMeet.Views.MainPage"
              BackgroundColor="LightGray">
 
     <StackLayout Orientation="Vertical"

@@ -1,25 +1,49 @@
-﻿namespace BoardGameMeet.Network.Responses
+﻿using Newtonsoft.Json;
+
+namespace BoardGameMeet.Network.Responses
 {
+    [JsonObject]
     public class ImagesElement
     {
-        public string thumb;
-        public string small;
-        public string medium;
-        public string large;
-        public string original;
+        [JsonProperty("thumb")]
+        public string Thumb { get; set; }
+
+        [JsonProperty("small")]
+        public string Small { get; set; }
+
+        [JsonProperty("medium")]
+        public string Medium { get; set; }
+
+        [JsonProperty("large")]
+        public string Large { get; set; }
+
+        [JsonProperty("original")]
+        public string Original { get; set; }
     }
 
+    [JsonObject]
     public class BoardGameElement
     {
-        public string name;
-        public int? min_players;
-        public int? max_players;
-        public ImagesElement images;
-        public string url;
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("min_players")]
+        public int? MinPlayers { get; set; }
+
+        [JsonProperty("max_players")]
+        public int? MaxPlayers { get; set; }
+
+        [JsonProperty("images")]
+        public ImagesElement Images { get; set; }
+
+        [JsonProperty("url")]
+        public string Url { get; set; }
     }
 
+    [JsonObject]
     public class SearchResponse : BaseResponse
     {
-        public BoardGameElement[] games;
+        [JsonProperty("games")]
+        public BoardGameElement[] Games { get; set; }
     }
 }

@@ -11,15 +11,18 @@ namespace BoardGameMeet.Services
 {
     public class NetworkService : INetworkService
     {
-        private const string RootUrl = "https://www.boardgameatlas.com/api";
         private const string ContentType = "application/x-www-form-urlencoded";
         private const string TokenKey = "jwt";
 
         private readonly Dictionary<string, string> _header = new Dictionary<string, string>();
         private readonly RestClient _restClient = new RestClient(ContentType);
 
-        public NetworkService()
+        private readonly string _rootUrl;
+
+        public NetworkService(string rootUrl)
         {
+            _rootUrl = rootUrl;
+
             if (Application.Current.Properties.TryGetValue(TokenKey, out var token))
             {
                 _header[TokenKey] = token.ToString();
@@ -35,17 +38,17 @@ namespace BoardGameMeet.Services
 
         public async Task<TResp> GetAsync<TResp>(string path, CancellationToken cancellationToken) where TResp : BaseResponse
         {
-            return await Execute(async () => await _restClient.GetAsync<TResp>(new Uri($"{RootUrl}{path}"), _header, cancellationToken));
+            return await Execute(async () => await _restClient.GetAsync<TResp>(new Uri($"{_rootUrl}{path}"), _header, cancellationToken));
         }
 
         public async Task<TResp> PostAsync<TReq, TResp>(string path, TReq requestObject, CancellationToken cancellationToken) where TResp : BaseResponse
         {
-            return await Execute(async () => await _restClient.PostAsync<TReq, TResp>(new Uri($"{RootUrl}{path}"), requestObject, _header, cancellationToken));
+            return await Execute(async () => await _restClient.PostAsync<TReq, TResp>(new Uri($"{_rootUrl}{path}"), requestObject, _header, cancellationToken));
         }
 
         public async Task<TResp> PutAsync<TReq, TResp>(string path, TReq requestObject, CancellationToken cancellationToken) where TResp : BaseResponse
         {
-            return await Execute(async () => await _restClient.PutAsync<TReq, TResp>(new Uri($"{RootUrl}{path}"), requestObject, _header, cancellationToken));
+            return await Execute(async () => await _restClient.PutAsync<TReq, TResp>(new Uri($"{_rootUrl}{path}"), requestObject, _header, cancellationToken));
         }
 
         private async Task<TResp> Execute<TResp>(Func<Task<TResp>> request)

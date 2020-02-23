@@ -73,7 +73,7 @@ namespace BoardGameMeet.Network.Client
 
                     if (!response.IsSuccessStatusCode)
                     {
-                        return new BaseResponse { status = (ApiStatus)response.StatusCode, message = response.ReasonPhrase } as TResp;
+                        return new BaseResponse { Status = (ApiStatus)response.StatusCode, Message = response.ReasonPhrase } as TResp;
                     }
 
                     return DeserializeJsonFromStream<TResp>(stream);

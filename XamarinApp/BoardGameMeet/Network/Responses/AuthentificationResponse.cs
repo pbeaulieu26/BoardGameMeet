@@ -1,7 +1,11 @@
-﻿namespace BoardGameMeet.Network.Responses
+﻿using Newtonsoft.Json;
+
+namespace BoardGameMeet.Network.Responses
 {
+    [JsonObject]
     public class AuthentificationResponse : BaseResponse
     {
-        public string token { get; set; }
+        [JsonProperty("token")]
+        public string Token { get; set; }
     }
 }

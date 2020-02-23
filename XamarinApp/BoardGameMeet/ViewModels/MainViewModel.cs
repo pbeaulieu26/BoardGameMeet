@@ -14,7 +14,7 @@ namespace BoardGameMeet.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private const string SearchUrl = "/search?client_id=6XH5yEJAag&limit=5&";
+        private const string SearchUrl = "/search?client_id=6XH5yEJAag&limit=5&fuzzy_match=true&";
 
         private string _searchInput;
         private string _name;
@@ -56,21 +56,20 @@ namespace BoardGameMeet.ViewModels
 
         private async Task Search(CancellationToken token)
         {
-            SearchResponse response = await _networkService.GetAsync<SearchResponse>(SearchUrl + "name=" + _searchInput, token);
+            var response = await _networkService.GetAsync<SearchResponse>(SearchUrl + "name=" + _searchInput, token);
 
             CustomListViewModel.ItemCollection.Clear();
 
-            foreach (var boardGameResp in response.games)
+            foreach (var boardGameResp in response.Games)
             {
-                BoardGame boardGame = new BoardGame
+                CustomListViewModel.ItemCollection.Add(new BoardGame
                 {
-                    Name = boardGameResp.name,
-                    MinPlayerCount = boardGameResp.min_players,
-                    MaxPlayerCount = boardGameResp.max_players,
-                    ImageUrl = boardGameResp.images.medium,
-                    DetailsUrl = boardGameResp.url
-                };
-                CustomListViewModel.ItemCollection.Add(boardGame);
+                    Name = boardGameResp.Name,
+                    MinPlayerCount = boardGameResp.MinPlayers,
+                    MaxPlayerCount = boardGameResp.MaxPlayers,
+                    ImageUrl = boardGameResp.Images.Medium,
+                    DetailsUrl = boardGameResp.Url
+                });
             }
         }
 
