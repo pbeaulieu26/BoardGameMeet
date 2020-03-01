@@ -1,9 +1,11 @@
 ﻿using BoardGameMeet.Models;
-using BoardGameMeet.Network.Responses;
+using BoardGameMeet.Network.Requests;
+using BoardGameMeet.Network.Responses.Elements;
 using BoardGameMeet.Services.Interfaces;
 using BoardGameMeet.ViewModels.Base;
 using BoardGameMeet.ViewModels.CustomControllers;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,14 +14,12 @@ using Xamarin.Forms;
 
 namespace BoardGameMeet.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class SearchViewModel : BaseViewModel
     {
-        private const string SearchUrl = "/search?client_id=6XH5yEJAag&limit=5&fuzzy_match=true&";
-
         private string _searchInput;
         private string _name;
         private string _players;
-        private INetworkService _networkService;
+        private IBoardGameAtlasService _boardGameAtlasService;
 
         public CustomListViewModel<BoardGame> CustomListViewModel { get; private set; }
 
@@ -43,24 +43,66 @@ namespace BoardGameMeet.ViewModels
 
         public ICommand SearchCommand => new Command(async () => await CustomListViewModel.UpdateList(Search));
 
-        public MainViewModel(INetworkService networkService)
+        public ICommand GetMyGamesCommand => new Command(async () => await CustomListViewModel.UpdateList(GetMyGames));
+
+        public SearchViewModel(IBoardGameAtlasService boardGameAtlasService)
         {
-            _networkService = networkService;
+            _boardGameAtlasService = boardGameAtlasService;
             CustomListViewModel = new CustomListViewModel<BoardGame>()
             {
                 SelectItemExecutionFunc = SelectItem
             };
-
-            _searchInput = "Catan";
         }
 
         private async Task Search(CancellationToken token)
         {
-            var response = await _networkService.GetAsync<SearchResponse>(SearchUrl + "name=" + _searchInput, token);
+            var request = new SearchRequest
+            {
+                ClientId = "6XH5yEJAag",
+                Name = SearchInput,
+                FuzzyMatch = true,
+                Limit = 10
+            };
+
+            var response = await _boardGameAtlasService.Search(request, token);
 
             CustomListViewModel.ItemCollection.Clear();
 
-            foreach (var boardGameResp in response.Games)
+            AddItems(response.Games);
+        }
+
+        private async Task GetMyGames(CancellationToken token)
+        {
+            var listsRequest = new UserGameListsRequest
+            {
+                ClientId = "6XH5yEJAag",
+                Username = "mathieu.favreau@usherbrooke.ca"
+            };
+
+            var listsResponse = await _boardGameAtlasService.UserGameLists(listsRequest, token);
+
+            var games = new List<BoardGameElement>();
+
+            foreach (var list in listsResponse.Lists)
+            {
+                var listRequest = new GameListRequest
+                {
+                    ClientId = "6XH5yEJAag",
+                    ListId = list.Id
+                };
+
+                var listResponse = await _boardGameAtlasService.GameList(listRequest, token);
+                games.AddRange(listResponse.Games);
+            }
+
+            CustomListViewModel.ItemCollection.Clear();
+
+            AddItems(games);
+        }
+
+        private void AddItems(IList<BoardGameElement> boardGameElements)
+        {
+            foreach (var boardGameResp in boardGameElements)
             {
                 CustomListViewModel.ItemCollection.Add(new BoardGame
                 {

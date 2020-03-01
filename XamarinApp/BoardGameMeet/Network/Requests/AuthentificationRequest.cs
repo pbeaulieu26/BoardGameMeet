@@ -1,14 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using BoardGameMeet.Network.Helpers;
 
 namespace BoardGameMeet.Network.Requests
 {
-    [JsonObject]
+    [RequestObject]
     public class AuthentificationRequest
     {
-        [JsonProperty("status")]
-        public string email { get; set; }
+        [RequestProperty("email")]
+        public string Email { get; set; }
 
-        [JsonProperty("status")]
-        public string password { get; set; }
+        [RequestProperty("password")]
+        public string Password { get; set; }
     }
 }

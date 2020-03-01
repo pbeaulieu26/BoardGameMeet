@@ -11,6 +11,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\Mock\**" />
+    <EmbeddedResource Remove="Services\Mock\**" />
+    <None Remove="Services\Mock\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\blue_interrogation_mark.png" />
+    <None Remove="Resources\clock.png" />
+    <None Remove="Resources\green_check_mark.png" />
+    <None Remove="Resources\invitation.png" />
+    <None Remove="Resources\message.png" />
+    <None Remove="Resources\newmessage.png" />
+    <None Remove="Resources\plus.png" />
+    <None Remove="Resources\red_cross.png" />
+    <None Remove="Resources\red_exclamation_mark.png" />
+    <None Remove="Resources\white_arrow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991640" />
@@ -18,15 +37,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Network\Client\" />
-    <Folder Include="Network\Requests\" />
-    <Folder Include="Services\" />
+    <Folder Include="Resources\" />
     <Folder Include="ViewModels\CustomControllers\" />
-    <Folder Include="Views\Converters\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Views\CustomCells\BoardGameCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\EventsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

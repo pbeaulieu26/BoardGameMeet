@@ -1,16 +1,17 @@
 ﻿using BoardGameMeet.ViewModels;
+using MenuApplication.ViewModels.Base;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace BoardGameMeet.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ContentPage
+    public partial class SearchPage : ContentPage
     {
-        public MainPage(MainViewModel viewModel)
+        public SearchPage()
         {
             InitializeComponent();
-            BindingContext = viewModel;
+            BindingContext = ViewModelLocator.Resolve<SearchViewModel>();
         }
     }
 }

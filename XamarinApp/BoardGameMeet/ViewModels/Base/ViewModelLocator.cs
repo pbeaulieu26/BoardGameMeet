@@ -19,14 +19,14 @@ namespace MenuApplication.ViewModels.Base
         {
             _viewModels = new List<Type>
             {
-               typeof(MainViewModel),
-               typeof(UserViewModel)
+               typeof(SearchViewModel)
             };
 
             _serviceInstances = new Dictionary<Type, Type>
             {
                { typeof(INetworkService), typeof(BoardGameAtlasNetworkService) },
                { typeof(IPageService), typeof(PageService) },
+               { typeof(IBoardGameAtlasService), typeof(BoardGameAtlasService) },
             };
         }
 

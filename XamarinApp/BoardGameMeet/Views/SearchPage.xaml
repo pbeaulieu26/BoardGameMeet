@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customControllers="clr-namespace:BoardGameMeet.Views.CustomControllers"
              xmlns:customCells="clr-namespace:BoardGameMeet.Views.CustomCells"
-             NavigationPage.HasNavigationBar="False"
-             x:Class="BoardGameMeet.Views.MainPage"
+             x:Class="BoardGameMeet.Views.SearchPage"
              BackgroundColor="LightGray">
 
     <StackLayout Orientation="Vertical"
@@ -26,6 +25,10 @@
                        RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"/>
 
         </RelativeLayout>
+
+        <Button Text="My games"
+                Command="{Binding GetMyGamesCommand}"
+                BackgroundColor="White"/>
 
         <customControllers:CustomList BindingContext="{Binding CustomListViewModel}"
                                       VerticalOptions="FillAndExpand">
