@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:expandable="clr-namespace:Expandable;assembly=ExpandableView"
+          x:Class="BoardGameMeet.Views.CustomCells.GroupCell">
+
+    <expandable:ExpandableView>
+        <expandable:ExpandableView.PrimaryView>
+            <StackLayout Padding="10"
+                         Orientation="Horizontal"
+                         Spacing="10">
+
+                <Label Text="{Binding Name}"
+                       FontSize="Large"
+                       VerticalOptions="Center"/>
+
+            </StackLayout>
+        </expandable:ExpandableView.PrimaryView>
+        <expandable:ExpandableView.SecondaryViewTemplate>
+            <DataTemplate>
+                <Label Text="{Binding Name}"
+                       FontSize="Large"
+                       VerticalOptions="Center"/>
+            </DataTemplate>
+        </expandable:ExpandableView.SecondaryViewTemplate>
+    </expandable:ExpandableView>
+    
+
+</ViewCell>

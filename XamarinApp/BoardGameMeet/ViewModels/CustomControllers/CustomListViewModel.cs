@@ -32,6 +32,7 @@ namespace BoardGameMeet.ViewModels.CustomControllers
 
         private TItem _selectedItem;
         private bool _isRefreshing;
+        private bool _isUpdateError;
         private string _emptyListMessage;
 
         public ObservableCollection<TItem> ItemCollection { get; private set; }
@@ -50,6 +51,12 @@ namespace BoardGameMeet.ViewModels.CustomControllers
             set { SetValue(ref _isRefreshing, value); }
         }
 
+        public bool IsUpdateError
+        {
+            get { return _isUpdateError; }
+            set { SetValue(ref _isUpdateError, value); }
+        }
+
         public string EmptyListMessage
         {
             get { return _emptyListMessage; }
@@ -62,6 +69,7 @@ namespace BoardGameMeet.ViewModels.CustomControllers
         {
             ItemCollection = new ObservableCollection<TItem>();
             SelectItemCommand = new Command<TItem>(async i => await SelectItem(i));
+            IsUpdateError = false;
         }
 
         private async Task SelectItem(TItem viewModel)
@@ -88,10 +96,12 @@ namespace BoardGameMeet.ViewModels.CustomControllers
                 await _uniqueExecutionTaskQueue.ExecuteAsync(updateFunc);
 
                 EmptyListMessage = EmptyListString;
+                IsUpdateError = false;
             }
             catch (Exception)
             {
                 EmptyListMessage = ErrorString;
+                IsUpdateError = true;
             }
             finally
             {

@@ -6,15 +6,12 @@ using Xamarin.Forms.Xaml;
 namespace BoardGameMeet.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SearchPage : ContentPage
+    public partial class UserPage : ContentPage
     {
-        private SearchViewModel _viewModel;
-
-        public SearchPage()
+        public UserPage()
         {
             InitializeComponent();
-            _viewModel = ViewModelLocator.Resolve<SearchViewModel>();
-            BindingContext = _viewModel;
+            BindingContext = ViewModelLocator.Resolve<UserViewModel>();
         }
     }
 }

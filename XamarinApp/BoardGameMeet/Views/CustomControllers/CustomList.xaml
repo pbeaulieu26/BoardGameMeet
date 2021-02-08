@@ -4,7 +4,6 @@
              xmlns:converters="clr-namespace:BoardGameMeet.Views.Converters"
              x:Class="BoardGameMeet.Views.CustomControllers.CustomList"
              BackgroundColor="White"
-             VerticalOptions="FillAndExpand"
              x:Name="this">
 
     
@@ -16,9 +15,9 @@
 
         <Label Text="{Binding EmptyListMessage}"
                FontSize="Large"
-               VerticalOptions="CenterAndExpand"
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center"
+               Padding="10"
                IsVisible="False">
 
             <Label.Triggers>

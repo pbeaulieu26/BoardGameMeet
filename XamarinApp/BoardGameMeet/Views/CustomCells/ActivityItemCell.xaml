@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:converters="clr-namespace:BoardGameMeet.Views.Converters"
+          x:Class="BoardGameMeet.Views.CustomCells.ActivityItemCell"
+          x:Name="this">
+
+    <Grid Padding="10,5,10,5"
+          RowSpacing="5"
+          ColumnSpacing="40">
+
+        <Grid.Resources>
+            <converters:StatusToResourceConverter x:Key="statusToResourceConverter"/>
+            <converters:DateToStringConverter x:Key="dateToStringConverter"/>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Text="{Binding EventTime.Date, Converter={StaticResource dateToStringConverter}}"
+               TextColor="Black"
+               Grid.Row="0"
+               Grid.Column="0"
+               HorizontalOptions="End"
+               VerticalOptions="End"/>
+
+        <Label Text="{Binding EventTime, Converter={StaticResource dateToStringConverter}}"
+               TextColor="Black"
+               Grid.Row="1"
+               Grid.Column="0"
+               HorizontalOptions="End"/>
+        
+        <Label Text="{Binding Name}"
+               TextColor="Black"
+               FontSize="Medium"
+               FontAttributes="Bold"
+               Grid.Row="0"
+               Grid.Column="1"
+               HorizontalOptions="Start"/>
+        
+        <Label Text="{Binding GroupName}"
+               Grid.Row="1"
+               Grid.Column="1"
+               HorizontalOptions="Start"/>
+        
+        <Image Source="{Binding Status, Converter={StaticResource statusToResourceConverter}}"
+               Grid.Column="2"
+               Grid.RowSpan="2"/>
+
+    </Grid>
+    
+</ViewCell>

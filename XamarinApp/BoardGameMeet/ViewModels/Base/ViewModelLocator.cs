@@ -2,6 +2,7 @@
 using Autofac.Core;
 using BoardGameMeet.Services;
 using BoardGameMeet.Services.Interfaces;
+using BoardGameMeet.Services.Mock;
 using BoardGameMeet.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,10 @@ namespace MenuApplication.ViewModels.Base
         {
             _viewModels = new List<Type>
             {
-               typeof(SearchViewModel)
+               typeof(SearchViewModel),
+               typeof(UserViewModel),
+               typeof(EventsViewModel),
+               typeof(GroupViewModel)
             };
 
             _serviceInstances = new Dictionary<Type, Type>
@@ -27,6 +31,8 @@ namespace MenuApplication.ViewModels.Base
                { typeof(INetworkService), typeof(BoardGameAtlasNetworkService) },
                { typeof(IPageService), typeof(PageService) },
                { typeof(IBoardGameAtlasService), typeof(BoardGameAtlasService) },
+               { typeof(IScheduleService), typeof(ScheduleServiceMock) },
+               { typeof(IGroupService), typeof(GroupServiceMock)}
             };
         }
 

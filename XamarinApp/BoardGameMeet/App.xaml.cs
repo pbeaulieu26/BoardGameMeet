@@ -12,7 +12,7 @@ namespace BoardGameMeet
             InitializeComponent();
             ViewModelLocator.Initialize();
 
-            MainPage = new SearchPage();
+            MainPage = new MainTabbedPage();
         }
 
         protected override void OnStart()

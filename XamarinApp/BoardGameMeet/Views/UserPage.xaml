@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControllers="clr-namespace:BoardGameMeet.Views.CustomControllers"
+             xmlns:customCells="clr-namespace:BoardGameMeet.Views.CustomCells"
+             NavigationPage.HasNavigationBar="False"
+             x:Class="BoardGameMeet.Views.UserPage">
+
+    <customControllers:MultipleExpandableView Orientation="Vertical"
+                                              Padding="20"
+                                              Spacing="15"
+                                              BackgroundColor="LightGray">
+
+        <customControllers:ExpandableViewCustom ExpandCommand="{Binding GetBoardGamesCommand}">
+            <customControllers:ExpandableViewCustom.PrimaryView>
+                <Label Text="My Games"
+                   FontSize="Large"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   Padding="10"
+                   BackgroundColor="White"/>
+            </customControllers:ExpandableViewCustom.PrimaryView>
+            <customControllers:ExpandableViewCustom.SecondaryViewTemplate>
+                <DataTemplate>
+                    <StackLayout VerticalOptions="Start">
+                        <customControllers:CustomList BindingContext="{Binding BoardGameList}">
+                            <customControllers:CustomList.ItemTemplate>
+                                <DataTemplate>
+                                    <customCells:BoardGameCell/>
+                                </DataTemplate>
+                            </customControllers:CustomList.ItemTemplate>
+                        </customControllers:CustomList>
+                    </StackLayout>
+                </DataTemplate>
+            </customControllers:ExpandableViewCustom.SecondaryViewTemplate>
+        </customControllers:ExpandableViewCustom>
+
+        <customControllers:ExpandableViewCustom ExpandCommand="{Binding GetBoardGamesCommand}">
+            <customControllers:ExpandableViewCustom.PrimaryView>
+                <Label Text="Wish List"
+                   FontSize="Large"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   Padding="10"
+                   BackgroundColor="White"/>
+            </customControllers:ExpandableViewCustom.PrimaryView>
+            <customControllers:ExpandableViewCustom.SecondaryViewTemplate>
+                <DataTemplate>
+                    <StackLayout VerticalOptions="Start">
+                        <customControllers:CustomList BindingContext="{Binding BoardGameList}">
+                            <customControllers:CustomList.ItemTemplate>
+                                <DataTemplate>
+                                    <customCells:BoardGameCell/>
+                                </DataTemplate>
+                            </customControllers:CustomList.ItemTemplate>
+                        </customControllers:CustomList>
+                    </StackLayout>
+                </DataTemplate>
+            </customControllers:ExpandableViewCustom.SecondaryViewTemplate>
+        </customControllers:ExpandableViewCustom>
+
+        <customControllers:ExpandableViewCustom ExpandCommand="{Binding GetBoardGamesCommand}">
+            <customControllers:ExpandableViewCustom.PrimaryView>
+                <Label Text="Friend List"
+                   FontSize="Large"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center"
+                   Padding="10"
+                   BackgroundColor="White"/>
+            </customControllers:ExpandableViewCustom.PrimaryView>
+            <customControllers:ExpandableViewCustom.SecondaryViewTemplate>
+                <DataTemplate>
+                    <StackLayout VerticalOptions="Start">
+                        <customControllers:CustomList BindingContext="{Binding BoardGameList}">
+                            <customControllers:CustomList.ItemTemplate>
+                                <DataTemplate>
+                                    <customCells:BoardGameCell/>
+                                </DataTemplate>
+                            </customControllers:CustomList.ItemTemplate>
+                        </customControllers:CustomList>
+                    </StackLayout>
+                </DataTemplate>
+            </customControllers:ExpandableViewCustom.SecondaryViewTemplate>
+        </customControllers:ExpandableViewCustom>
+
+    </customControllers:MultipleExpandableView>
+
+</ContentPage>

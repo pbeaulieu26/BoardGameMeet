@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:converters="clr-namespace:BoardGameMeet.Views.Converters"
+             xmlns:customControllers="clr-namespace:BoardGameMeet.Views.CustomControllers"
+             xmlns:customCells="clr-namespace:BoardGameMeet.Views.CustomCells"
+             x:Class="BoardGameMeet.Views.EventsPage">
+
+    <StackLayout Spacing="0">
+
+        <StackLayout.Resources>
+            <converters:DateToStringConverter x:Key="dateToStringConverter"/>
+        </StackLayout.Resources>
+        
+        <customControllers:CustomList BindingContext="{Binding Activities}"
+                                      VerticalOptions="FillAndExpand">
+
+            <customControllers:CustomList.ItemTemplate>
+                <DataTemplate>
+                    <customCells:ActivityItemCell/>
+                </DataTemplate>
+            </customControllers:CustomList.ItemTemplate>
+
+            <customControllers:CustomList.GroupHeaderTemplate>
+                <DataTemplate>
+                    <customCells:ActivityGroupingCell/>
+                </DataTemplate>
+            </customControllers:CustomList.GroupHeaderTemplate>
+
+        </customControllers:CustomList>
+
+        <StackLayout Orientation="Horizontal"
+                     HorizontalOptions="Fill"
+                     Padding="5"
+                     BackgroundColor="#1f9617">
+
+            <customControllers:NavigationButton VerticalOptions="Center"
+                                                Rotation="180"
+                                                Size="50"
+                                                Resource="white_arrow"
+                                                ClickColor="#187212"
+                                                TapCommand="{Binding PreviousMonthCommand}"/>
+
+            <Label Text="{Binding MonthOfYear, Converter={StaticResource dateToStringConverter}, ConverterParameter=month}"
+                   TextColor="White"
+                   FontSize="Medium"
+                   FontAttributes="Bold"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="Center"/>
+
+            <customControllers:NavigationButton VerticalOptions="Center"
+                                                Size="50"
+                                                Resource="white_arrow"
+                                                ClickColor="#187212"
+                                                TapCommand="{Binding NextMonthCommand}"/>
+
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

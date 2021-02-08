@@ -11,12 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Services\Mock\**" />
-    <EmbeddedResource Remove="Services\Mock\**" />
-    <None Remove="Services\Mock\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Remove="Resources\black_arrow.png" />
     <None Remove="Resources\blue_interrogation_mark.png" />
     <None Remove="Resources\clock.png" />
     <None Remove="Resources\green_check_mark.png" />
@@ -30,14 +25,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\black_arrow.png" />
+    <EmbeddedResource Include="Resources\blue_interrogation_mark.png" />
+    <EmbeddedResource Include="Resources\clock.png" />
+    <EmbeddedResource Include="Resources\green_check_mark.png" />
+    <EmbeddedResource Include="Resources\invitation.png" />
+    <EmbeddedResource Include="Resources\message.png" />
+    <EmbeddedResource Include="Resources\newmessage.png" />
+    <EmbeddedResource Include="Resources\plus.png" />
+    <EmbeddedResource Include="Resources\red_cross.png" />
+    <EmbeddedResource Include="Resources\red_exclamation_mark.png" />
+    <EmbeddedResource Include="Resources\white_arrow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
+    <PackageReference Include="ExpandableView" Version="1.0.10" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991640" />
     <PackageReference Include="Xamarin.Essentials" Version="1.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="ViewModels\CustomControllers\" />
   </ItemGroup>
 
@@ -57,7 +66,13 @@
     <EmbeddedResource Update="Views\CustomCells\BoardGameCell.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\CustomCells\GroupCell.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\EventsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\GroupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

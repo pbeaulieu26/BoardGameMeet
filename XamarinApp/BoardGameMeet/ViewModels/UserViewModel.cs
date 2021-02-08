@@ -14,22 +14,15 @@ using Xamarin.Forms;
 
 namespace BoardGameMeet.ViewModels
 {
-    public class SearchViewModel : BaseViewModel
+    public class UserViewModel : CancellableTaskViewModel
     {
-        private string _searchInput;
         private IBoardGameAtlasService _boardGameAtlasService;
 
         public CustomListViewModel<BoardGame> BoardGameList { get; private set; }
 
-        public string SearchInput
-        {
-            get { return _searchInput; }
-            set { SetValue(ref _searchInput, value); }
-        }
+        public ICommand GetBoardGamesCommand => new Command(async () => await BoardGameList.UpdateList(GetBoardGames));
 
-        public ICommand SearchCommand => new Command(async () => await BoardGameList.UpdateList(Search));
-
-        public SearchViewModel(IBoardGameAtlasService boardGameAtlasService)
+        public UserViewModel(IBoardGameAtlasService boardGameAtlasService)
         {
             _boardGameAtlasService = boardGameAtlasService;
             BoardGameList = new CustomListViewModel<BoardGame>()
@@ -38,24 +31,36 @@ namespace BoardGameMeet.ViewModels
             };
         }
 
-        private async Task Search(CancellationToken token)
+        private async Task GetBoardGames(CancellationToken token)
         {
-            var request = new SearchRequest
+            var listsRequest = new UserGameListsRequest
             {
                 ClientId = "6XH5yEJAag",
-                Name = SearchInput,
-                FuzzyMatch = true,
-                Limit = 10
+                Username = "mathieu.favreau@usherbrooke.ca"
             };
 
-            var response = await _boardGameAtlasService.Search(request, token);
+            var listsResponse = await _boardGameAtlasService.UserGameLists(listsRequest, token);
+
+            var games = new List<BoardGameElement>();
+
+            foreach (var list in listsResponse.Lists)
+            {
+                var listRequest = new GameListRequest
+                {
+                    ClientId = "6XH5yEJAag",
+                    ListId = list.Id
+                };
+
+                var listResponse = await _boardGameAtlasService.GameList(listRequest, token);
+                games.AddRange(listResponse.Games);
+            }
 
             BoardGameList.ItemCollection.Clear();
 
-            AddItems(response.Games);
+            AddItems(games);
         }
 
-        private void AddItems(IList<BoardGameElement> boardGameElements)
+        private void AddItems(IEnumerable<BoardGameElement> boardGameElements)
         {
             foreach (var boardGameResp in boardGameElements)
             {
