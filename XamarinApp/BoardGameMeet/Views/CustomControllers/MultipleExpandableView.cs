@@ -9,9 +9,9 @@ namespace BoardGameMeet.Views.CustomControllers
 {
     public class MultipleExpandableView : StackLayout
     {
-        private List<ExpandableViewCustom> _expandableViews = new List<ExpandableViewCustom>();
-        private Dictionary<ExpandableViewCustom, ICommand> _updateCommands = new Dictionary<ExpandableViewCustom, ICommand>();
-        private Mutex mutex = new Mutex();
+        private readonly List<ExpandableViewCustom> _expandableViews = new List<ExpandableViewCustom>();
+        private readonly Dictionary<ExpandableViewCustom, ICommand> _updateCommands = new Dictionary<ExpandableViewCustom, ICommand>();
+        private readonly Mutex _mutex = new Mutex();
 
         public ICommand ExpendCommand => new Command<ExpandableViewCustom>(async view => await HandleExpend(view));
         public ICommand CollapseCommand => new Command<ExpandableViewCustom>(HandleCollapse);
@@ -31,41 +31,32 @@ namespace BoardGameMeet.Views.CustomControllers
 
         private async Task HandleExpend(ExpandableViewCustom expendingView)
         {
-            if (mutex.WaitOne(0))
+            if (_mutex.WaitOne(0))
             {
                 foreach (var view in _expandableViews.Where(view => view != expendingView))
                 {
                     view.IsExpanded = false;
-                    view.IsTouchToExpandEnabled = false;
-                    view.ForceUpdateSize();
+                    view.IsTouchToExpandEnabled = false; // Prevent expend while we are
                 }
 
                 if (!expendingView.IsTouchToExpandEnabled)
                 {
-                    await Task.Delay((int)(expendingView.ExpandAnimationLength * 1.25));
+                    await Task.Delay((int)(expendingView.ExpandAnimationLength * 1.3));
                     expendingView.IsTouchToExpandEnabled = true;
                     expendingView.IsExpanded = true;
-                    await Task.Delay((int)(expendingView.ExpandAnimationLength * 1.25));
                 }
 
                 _updateCommands[expendingView]?.Execute(this);
-
-                foreach (var view in _expandableViews.Where(view => view != expendingView))
-                {
-                    view.IsExpanded = false;
-                    view.IsTouchToExpandEnabled = false;
-                    view.ForceUpdateSize();
-                }
-
-                expendingView.ForceUpdateSize();
-
-                mutex.ReleaseMutex();
+                _mutex.ReleaseMutex();
             }     
         }
 
         private void HandleCollapse(ExpandableViewCustom collapsingView)
         {
-            collapsingView.IsTouchToExpandEnabled = true;
+            foreach (var view in _expandableViews)
+            {
+                view.IsTouchToExpandEnabled = true;
+            }
         }
     }
 }
