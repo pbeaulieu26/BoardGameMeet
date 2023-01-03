@@ -85,7 +85,7 @@ namespace BoardGameMeet.Network.Client
         {
             if (stream == null || !stream.CanRead)
             {
-                return default(T);
+                return default;
             }
 
             using (var sr = new StreamReader(stream))

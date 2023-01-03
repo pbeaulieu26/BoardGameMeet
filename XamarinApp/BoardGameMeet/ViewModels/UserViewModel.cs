@@ -6,6 +6,7 @@ using BoardGameMeet.ViewModels.Base;
 using BoardGameMeet.ViewModels.CustomControllers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,20 +19,42 @@ namespace BoardGameMeet.ViewModels
     {
         private IBoardGameAtlasService _boardGameAtlasService;
 
-        public CustomListViewModel<BoardGame> BoardGameList { get; private set; }
+        public CustomListViewModel<BoardGame> OwnedBoardGameList { get; private set; }
 
-        public ICommand GetBoardGamesCommand => new Command(async () => await BoardGameList.UpdateList(GetBoardGames));
+        public CustomListViewModel<BoardGame> WishedBoardGameList { get; private set; }
+
+        public ICommand GetOwnedBoardGamesCommand => new Command(async () => await OwnedBoardGameList.UpdateList(GetOwnedBoardGames));
+
+        public ICommand GetWishedBoardGamesCommand => new Command(async () => await WishedBoardGameList.UpdateList(GetWishedBoardGames));
 
         public UserViewModel(IBoardGameAtlasService boardGameAtlasService)
         {
             _boardGameAtlasService = boardGameAtlasService;
-            BoardGameList = new CustomListViewModel<BoardGame>()
+            OwnedBoardGameList = new CustomListViewModel<BoardGame>()
             {
-                SelectItemExecutionFunc = SelectItem
+                SelectItemExecutionFunc = SelectedOwnedBoardGame
+            };
+            WishedBoardGameList = new CustomListViewModel<BoardGame>()
+            {
+                SelectItemExecutionFunc = SelectedWishedBoardGame
             };
         }
 
-        private async Task GetBoardGames(CancellationToken token)
+        private async Task GetOwnedBoardGames(CancellationToken token)
+        {
+            var games = await GetListBoardGames("Owned", token);
+            OwnedBoardGameList.ItemCollection.Clear();
+            AddItems(OwnedBoardGameList, games);
+        }
+
+        private async Task GetWishedBoardGames(CancellationToken token)
+        {
+            var games = await GetListBoardGames("Wishlist", token);
+            WishedBoardGameList.ItemCollection.Clear();
+            AddItems(WishedBoardGameList, games);
+        }
+
+        private async Task<List<BoardGameElement>> GetListBoardGames(string listName, CancellationToken token)
         {
             var listsRequest = new UserGameListsRequest
             {
@@ -45,6 +68,11 @@ namespace BoardGameMeet.ViewModels
 
             foreach (var list in listsResponse.Lists)
             {
+                if (list.Name != listName)
+                {
+                    continue;
+                }
+                
                 var listRequest = new GameListRequest
                 {
                     ClientId = "6XH5yEJAag",
@@ -55,16 +83,14 @@ namespace BoardGameMeet.ViewModels
                 games.AddRange(listResponse.Games);
             }
 
-            BoardGameList.ItemCollection.Clear();
-
-            AddItems(games);
+            return games;
         }
 
-        private void AddItems(IEnumerable<BoardGameElement> boardGameElements)
+        private void AddItems(CustomListViewModel<BoardGame> boardGameList, IEnumerable<BoardGameElement> boardGameElements)
         {
             foreach (var boardGameResp in boardGameElements)
             {
-                BoardGameList.ItemCollection.Add(new BoardGame
+                boardGameList.ItemCollection.Add(new BoardGame
                 {
                     Name = boardGameResp.Name,
                     MinPlayerCount = boardGameResp.MinPlayers,
@@ -75,9 +101,14 @@ namespace BoardGameMeet.ViewModels
             }
         }
 
-        private async Task SelectItem()
+        private async Task SelectedOwnedBoardGame()
         {
-            await Launcher.OpenAsync(new Uri(BoardGameList.SelectedItem.DetailsUrl));
+            await Launcher.OpenAsync(new Uri(OwnedBoardGameList.SelectedItem.DetailsUrl));
+        }
+
+        private async Task SelectedWishedBoardGame()
+        {
+            await Launcher.OpenAsync(new Uri(WishedBoardGameList.SelectedItem.DetailsUrl));
         }
     }
 }

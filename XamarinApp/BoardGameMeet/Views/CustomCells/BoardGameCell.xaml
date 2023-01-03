@@ -10,9 +10,13 @@
                  Orientation="Horizontal"
                  Spacing="10">
 
-        <Image Source="{Binding ImageUrl}"
-               HeightRequest="70"
-               WidthRequest="70"/>
+        <Image HeightRequest="70"
+               WidthRequest="70">
+            <Image.Source>
+                <UriImageSource Uri="{Binding ImageUrl}" 
+			                    CachingEnabled="true"/>
+            </Image.Source>
+        </Image>
         <Label Text="{Binding Name}"
                FontSize="Large"
                VerticalOptions="Center"/>
